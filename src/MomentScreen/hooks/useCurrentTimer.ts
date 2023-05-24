@@ -20,8 +20,13 @@ const useCurrentTimer = () => {
     clearTimeout(timer.current);
   };
 
+  const currentTimeFormat = (_currentTime: moment.Moment) => {
+    const TIME_FORMAT = 'HH:mm:ss';
+    return _currentTime.format(TIME_FORMAT);
+  };
+
   return {
-    time,
+    time: currentTimeFormat(time),
     start,
     stop,
   };
