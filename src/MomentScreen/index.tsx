@@ -1,17 +1,21 @@
 import moment from 'moment';
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import useTimer from './useTimer';
+import useCurrentTimer from './hook/useCurrentTimer';
+import TabButton from './elements/TabButton';
+import TabButtonGroup from './elements/TabButtonGroup';
 
 interface Props {}
 
 const MomentScreen = ({}: Props) => {
   const styles = useStyles();
 
-  const currentTimer = useTimer();
-  const defaultTimer = useTimer();
-  const stopwatchTimer = useTimer();
-  const pomoTimer = useTimer();
+  const [viewIndex, setViewIndex] = useState<number>(0);
+
+  const currentTimer = useCurrentTimer();
+  const defaultTimer = useCurrentTimer();
+  const stopwatchTimer = useCurrentTimer();
+  const pomoTimer = useCurrentTimer();
 
   // 기초
   // - 현재시간
@@ -39,15 +43,38 @@ const MomentScreen = ({}: Props) => {
 
   return (
     <View style={styles.container}>
-      <View>
-        <Text>현재시간</Text>
-        <Text style={styles.time}>{currentTimeFormat(currentTimer.time)}</Text>
-        <Text>{moment().format('LTS')}</Text>
-      </View>
-      <View>
-        <Text>타이머</Text>
-        <Text style={styles.time}>{pomoTimeFormat(22)}</Text>
-      </View>
+      <TabButtonGroup>
+        {['현재시간', '타이머', '스톱워치', '포모'].map((name, i) => (
+          <TabButton
+            key={i}
+            selected={viewIndex === i}
+            onPress={() => setViewIndex(i)}>
+            {name}
+          </TabButton>
+        ))}
+      </TabButtonGroup>
+      {viewIndex === 0 && (
+        <View>
+          <Text style={styles.time}>
+            {currentTimeFormat(currentTimer.time)}
+          </Text>
+        </View>
+      )}
+      {viewIndex === 1 && (
+        <View>
+          <Text style={styles.time}>{pomoTimeFormat(22)}</Text>
+        </View>
+      )}
+      {viewIndex === 2 && (
+        <View>
+          <Text style={styles.time}>{pomoTimeFormat(22)}</Text>
+        </View>
+      )}
+      {viewIndex === 3 && (
+        <View>
+          <Text style={styles.time}>{pomoTimeFormat(22)}</Text>
+        </View>
+      )}
     </View>
   );
 };
