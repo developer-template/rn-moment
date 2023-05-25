@@ -1,24 +1,21 @@
 import moment from 'moment';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 const useDefaultTimer = () => {
   const limit = 30;
   const timer = useRef<number>(0);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(moment());
 
-  const updateTime = useCallback(() => {
-    timer.current = setTimeout(() => {
-      setTime(_time => _time + 1);
-      updateTime();
-    }, 1000);
-  }, []);
-
+  const startTime = useRef(moment());
   const start = () => {
-    updateTime();
+    startTime.current = moment();
+    timer.current = setInterval(() => {
+      setTime(moment());
+    }, 1000);
   };
 
   const stop = () => {
-    clearTimeout(timer.current);
+    clearInterval(timer.current);
   };
 
   const defaultTime = (second: number): string => {
@@ -31,7 +28,7 @@ const useDefaultTimer = () => {
   };
 
   return {
-    time: defaultTime(limit - time),
+    time: defaultTime(limit - time.diff(startTime.current, 'seconds')),
     start,
     stop,
   };

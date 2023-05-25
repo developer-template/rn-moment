@@ -13,7 +13,7 @@ const CurrentTimer = ({}: Props) => {
     return () => {
       currentTimer.stop();
     };
-  }, [currentTimer]);
+  }, []);
 
   return (
     <View>

@@ -1,32 +1,31 @@
 import moment from 'moment';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 const useStopwatchTimer = () => {
   const timer = useRef<number>(0);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(moment());
 
-  const updateTime = useCallback(() => {
-    timer.current = setTimeout(() => {
-      setTime(_time => _time + 100);
-      updateTime();
-    }, 100);
-  }, []);
-
+  const startTime = useRef(moment());
   const start = () => {
-    updateTime();
+    startTime.current = moment();
+    timer.current = setInterval(() => {
+      setTime(moment());
+    }, 10);
   };
 
   const stop = () => {
-    clearTimeout(timer.current);
+    clearInterval(timer.current);
   };
 
-  const stopwatchTime = (millisecond: number): string => {
+  const stopwatchTimeFormat = (_currentTime: moment.Moment) => {
     const TIME_FORMAT = 'HH:mm:ss.SS';
-    return moment.utc(millisecond).format(TIME_FORMAT);
+    return _currentTime.format(TIME_FORMAT);
   };
 
   return {
-    time: stopwatchTime(time),
+    time: stopwatchTimeFormat(
+      moment.utc(time.diff(startTime.current, 'milliseconds')),
+    ),
     start,
     stop,
   };

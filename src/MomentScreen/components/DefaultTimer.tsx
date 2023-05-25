@@ -13,7 +13,7 @@ const DefaultTimer = ({}: Props) => {
     return () => {
       defaultTimer.stop();
     };
-  }, [defaultTimer]);
+  }, []);
 
   return (
     <View>

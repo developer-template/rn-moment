@@ -13,7 +13,7 @@ const StopwatchTimer = ({}: Props) => {
     return () => {
       stopwatchTimer.stop();
     };
-  }, [stopwatchTimer]);
+  }, []);
 
   return (
     <View>
