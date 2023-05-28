@@ -4,6 +4,7 @@ import React, {useRef, useState} from 'react';
 const useStopwatchTimer = () => {
   const timer = useRef<number>(0);
   const [time, setTime] = useState(moment());
+  const [recordList, setRecordList] = useState<number[]>([]);
 
   const startTime = useRef(moment());
   const start = () => {
@@ -11,6 +12,13 @@ const useStopwatchTimer = () => {
     timer.current = setInterval(() => {
       setTime(moment());
     }, 10);
+  };
+
+  const save = () => {
+    setRecordList([
+      ...recordList,
+      time.diff(startTime.current, 'milliseconds'),
+    ]);
   };
 
   const stop = () => {
@@ -28,6 +36,7 @@ const useStopwatchTimer = () => {
     ),
     start,
     stop,
+    save,
   };
 };
 
