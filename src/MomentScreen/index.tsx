@@ -4,7 +4,7 @@ import TabButton from './elements/TabButton';
 import TabButtonGroup from './elements/TabButtonGroup';
 import CurrentTimer from './components/CurrentTimer';
 // import DefaultTimer from './components/DefaultTimer';
-// import StopwatchTimer from './components/StopwatchTimer';
+import StopwatchTimer from './components/StopwatchTimer';
 
 interface Props {}
 
@@ -25,7 +25,7 @@ const MomentScreen = ({}: Props) => {
       </TabButtonGroup>
       {viewIndex === 0 && <CurrentTimer />}
       {/* {viewIndex === 1 && <DefaultTimer />} */}
-      {/* {viewIndex === 2 && <StopwatchTimer />} */}
+      {viewIndex === 2 && <StopwatchTimer />}
     </View>
   );
 };
